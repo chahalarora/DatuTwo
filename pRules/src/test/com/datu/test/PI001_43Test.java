@@ -2,6 +2,10 @@ package com.datu.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +34,7 @@ public class PI001_43Test extends RulesBaseTest {
     }
   
 	@Test
-	public void succesTest() {
+	public void succesTest() throws ParseException {
 	  System.out.println("Executing PI001_43Test.succesTest");
       TileResponseEngagement te1 = new TileResponseEngagement();
   //    te1.setActionName("AppointmentDate");
@@ -39,6 +43,9 @@ public class PI001_43Test extends RulesBaseTest {
       
       TileResponse tr1 = new TileResponse();
       tr1.setTileResponseId(57);
+      SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+      Date date = format.parse("2015/03/10");
+      tr1.setResponseDateTime(date);
       tr1.getTileResponseEngagements().add(te1);
       
       patient.getTileResponses().add(tr1);

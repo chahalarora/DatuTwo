@@ -179,7 +179,8 @@ import com.datu.util.DatuUtil;
 		tResponse: TileResponse(tileResponseId==57) from tResponses;		
 		TileResponse(tRespEngagements:tileResponseEngagements, apptDate:responseDateTime) from tResponse;
 		TileResponseEngagement(actionValue=='Yes') from tRespEngagements;
- 	    eval(DatuUtil.daysBetween(apptDate, currentTime()) > 30);
+ 	//    eval(DatuUtil.daysBetween(currentTime(),apptDate) > 30);
+ 	//     Boolean(booleanValue == true)DatuUtil.daysBetween(currentTime(),apptDate) > 30
 	then
 		DisplayTile displayTile = new DisplayTile();
    		displayTile.setTileRange("128-132");
