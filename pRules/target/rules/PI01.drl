@@ -172,6 +172,19 @@ import com.datu.util.DatuUtil;
    		displayCollection.setCollectionId(26);
         patient.getRulesResult().getDisplayCollections().add(displayCollection);
 	end
+	
+	rule "PI001_43"	
+	when
+		patient: Patient(tResponses:tileResponses);
+		tResponse: TileResponse(tileResponseId==57) from tResponses;		
+		TileResponse(tRespEngagements:tileResponseEngagements, apptDate:responseDateTime) from tResponse;
+		TileResponseEngagement(actionValue=='Yes') from tRespEngagements;
+ 	    eval(DatuUtil.daysBetween(DatuUtil.cDate(apptDate), currentTime()) > 30);
+	then
+		DisplayTile displayTile = new DisplayTile();
+   		displayTile.setTileRange("108-111");
+    	patient.getRulesResult().getDisplayTiles().add(displayTile);
+	end
 
 
 	function boolean isDisplayTile(int tileId, List tileResponses, int dismissCount, int dismissPeriod, int repliedPeriod) {
