@@ -33,11 +33,12 @@ public class PI001_43Test extends RulesBaseTest {
 	public void succesTest() {
 	  System.out.println("Executing PI001_43Test.succesTest");
       TileResponseEngagement te1 = new TileResponseEngagement();
-      te1.setActionName("AppointmentDate");
-      te1.setActionValue("2015/04/10");
+  //    te1.setActionName("AppointmentDate");
+  //    te1.setActionValue("2015/04/10");
+      te1.setActionValue("Yes");
       
       TileResponse tr1 = new TileResponse();
-      tr1.setTileResponseId(27);
+      tr1.setTileResponseId(57);
       tr1.getTileResponseEngagements().add(te1);
       
       patient.getTileResponses().add(tr1);
@@ -46,7 +47,7 @@ public class PI001_43Test extends RulesBaseTest {
       
       boolean actualResult =  false;
       for(DisplayTile displayTile : patient.getRulesResult().getDisplayTiles()){
-        if(displayTile.getTileRange().equals("81-86")){
+        if(displayTile.getTileRange().equals("128-132")){
             actualResult = true;
             break;
         }

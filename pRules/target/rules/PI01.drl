@@ -182,7 +182,7 @@ import com.datu.util.DatuUtil;
  	    eval(DatuUtil.daysBetween(DatuUtil.cDate(apptDate), currentTime()) > 30);
 	then
 		DisplayTile displayTile = new DisplayTile();
-   		displayTile.setTileRange("108-111");
+   		displayTile.setTileRange("128-132");
     	patient.getRulesResult().getDisplayTiles().add(displayTile);
 	end
 
