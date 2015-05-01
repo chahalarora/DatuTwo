@@ -171,6 +171,62 @@ import java.util.List;
         patient.getRulesResult().getDisplayCollections().add(displayCollection);
 	end
 
+rule "PI001_42"
+	when
+		
+		patient: Patient(tResponses:tileResponses);
+		tResponse: TileResponse(tileResponseId==56) from tResponses;
+		TileResponse(tRespEngagements:tileResponseEngagements, apptDate:responseDateTime) from tResponse;
+		TileResponseEngagement(actionValue=="Yes") from tRespEngagements;
+ 	    eval(daysBetween(apptDate, currentTime()) > 30);
+	then
+		DisplayTile displayTile = new DisplayTile();
+   		displayTile.setTileRange("108-111");
+    	patient.getRulesResult().getDisplayTiles().add(displayTile);
+	end
+
+
+	rule "PI001_43"
+	when
+		
+		patient: Patient(tResponses:tileResponses);
+		tResponse: TileResponse(tileResponseId==57) from tResponses;
+		TileResponse(tRespEngagements:tileResponseEngagements, apptDate:responseDateTime) from tResponse;
+		TileResponseEngagement(actionValue=="Yes") from tRespEngagements;
+ 	    eval(daysBetween(apptDate, currentTime()) > 30);
+	then
+		DisplayTile displayTile = new DisplayTile();
+   		displayTile.setTileRange("128-132");
+    	patient.getRulesResult().getDisplayTiles().add(displayTile);
+	end
+	
+	rule "PI001_44"
+	when
+		patient: Patient(cResponses:collectionResponses);
+	    not CollectionResponse(collectionId==10) from cResponses;
+	    not CollectionResponse(collectionId==11) from cResponses;
+	    not CollectionResponse(collectionId==12) from cResponses;
+	    not CollectionResponse(collectionId==13) from cResponses;
+	    not CollectionResponse(collectionId==14) from cResponses;
+	then
+		DisplayTile displayTile = new DisplayTile();
+   		displayTile.setTileRange("112-127");
+    	patient.getRulesResult().getDisplayTiles().add(displayTile);
+	end
+	
+	rule "PI001_45"
+	//If applicable collect patient's chidbirth history using MyChildbirth Hx Survey
+	//	sailence = 1000*(10-$priority)+$seq
+	when
+		patient :Patient(demo: demographics);
+		Demographics(genderCode =='F', age >= 18) from demo;
+		
+	then
+		//System.out.println("success PI001_6");
+		DisplayCollection displayCollection = new DisplayCollection();
+       	displayCollection.setCollectionId(19);
+        patient.getRulesResult().getDisplayCollections().add(displayCollection);
+	end
 
 	function boolean isDisplayTile(int tileId, List tileResponses, int dismissCount, int dismissPeriod, int repliedPeriod) {
 	    if (tileResponses == null || tileResponses.size() == 0) {
