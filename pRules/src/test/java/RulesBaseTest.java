@@ -1,4 +1,4 @@
-package com.datu.test;
+package java;
 
 import org.kie.api.io.ResourceType;
 import org.kie.internal.KnowledgeBase;

@@ -1,4 +1,4 @@
-package com.datu.test;
+package java;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,7 +16,7 @@ import com.datu.patient.TileResponse;
 import com.datu.patient.TileResponseEngagement;
 import com.datu.result.DisplayTile;
 
-public class PI001_43Test extends RulesBaseTest {
+public class PI001_42Test extends RulesBaseTest {
   private StatefulKnowledgeSession ksession = null;
   private Patient patient;
   
@@ -41,7 +41,7 @@ public class PI001_43Test extends RulesBaseTest {
       te1.setActionValue("Yes");
       
       TileResponse tr1 = new TileResponse();
-      tr1.setTileResponseId(57);
+      tr1.setTileResponseId(56);
       
       SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
       Date date = format.parse("2015/03/10");
@@ -55,7 +55,7 @@ public class PI001_43Test extends RulesBaseTest {
       
       boolean actualResult =  false;
       for(DisplayTile displayTile : patient.getRulesResult().getDisplayTiles()){
-        if(displayTile.getTileRange().equals("128-132")){
+        if(displayTile.getTileRange().equals("108-111")){
             actualResult = true;
             break;
         }

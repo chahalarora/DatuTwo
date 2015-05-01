@@ -1,4 +1,4 @@
-package com.datu.test;
+package java;
 
 import org.junit.After;
 import org.junit.Before;

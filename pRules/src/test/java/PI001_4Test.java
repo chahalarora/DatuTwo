@@ -1,6 +1,4 @@
-package com.datu.test;
-
-import java.util.Calendar;
+package java;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,14 +6,14 @@ import org.junit.Test;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
 
 import com.datu.patient.CollectionResponse;
+import com.datu.patient.Demographics;
 import com.datu.patient.Patient;
 import com.datu.result.DisplayCollection;
-import com.datu.result.RulesResult;
 
 import static org.junit.Assert.assertEquals;
 
 //Collect patient's initial information using MyInformation Survey
-public class PI001_5Test extends RulesBaseTest {
+public class PI001_4Test extends RulesBaseTest {
   private StatefulKnowledgeSession ksession = null;
   private Patient patient;
   
@@ -33,62 +31,71 @@ public class PI001_5Test extends RulesBaseTest {
     }
 	
 	@Test
-	public void succesTest() {
-	  System.out.println("Executing PI001_5Test.succesTest");
+	public void collectionResponseWithout13AndGenderMale() {
+	  System.out.println("Executing PI001_4Test.collectionResponseWithout13AndGenderMale");
 	  CollectionResponse c1 = new CollectionResponse();
-      c1.setCollectionId(10);	  
-	  
-	  CollectionResponse c2 = new CollectionResponse();
-      c2.setCollectionId(12);
-      Calendar c = Calendar.getInstance();
-      c.add(Calendar.DATE, -366);
-      c2.setResponseDateTime(c.getTime());
-      
+      c1.setCollectionId(10);
       patient.getCollectionResponses().add(c1);
-      patient.getCollectionResponses().add(c2);
-            
-      RulesResult rulesResult =  new RulesResult();
-      patient.setRulesResult(rulesResult);
-      
-     
+      Demographics demographics = new Demographics();
+      demographics.setGenderCode("F");
+      patient.setDemographics(demographics);
       ksession.insert(patient);
       ksession.fireAllRules();
       //List<DisplayCollection> dCollections = patient.getRulesResult().getDisplayCollections();
       boolean actualResult =  false;
       for(DisplayCollection displayCollection : patient.getRulesResult().getDisplayCollections()){
-        if(displayCollection.getCollectionId() == 14){
+        if(displayCollection.getCollectionId() == 13){
             actualResult = true;
             break;
         }
       }
+      System.out.println("actualResult="+actualResult);
+      
       assertEquals("Positive condition", actualResult, true);
 	}
 	
 	@Test
-    public void failureTest() {
-	  System.out.println("Executing PI001_5Test.failureTest");
-	  CollectionResponse c1 = new CollectionResponse();
-      c1.setCollectionId(14);     
+    public void collectionResponseWithout13NoDemographics() {
+      CollectionResponse c1 = new CollectionResponse();
+      c1.setCollectionId(10);
       
       CollectionResponse c2 = new CollectionResponse();
-      c2.setCollectionId(14);
-      Calendar c = Calendar.getInstance();
-      c.add(Calendar.DATE, -370);
-      c2.setResponseDateTime(c.getTime());
+      c2.setCollectionId(12);
       
       patient.getCollectionResponses().add(c1);
       patient.getCollectionResponses().add(c2);
-            
-      RulesResult rulesResult =  new RulesResult();
-      patient.setRulesResult(rulesResult);
-      
-     
       ksession.insert(patient);
       ksession.fireAllRules();
       //List<DisplayCollection> dCollections = patient.getRulesResult().getDisplayCollections();
       boolean actualResult =  false;
       for(DisplayCollection displayCollection : patient.getRulesResult().getDisplayCollections()){
-        if(displayCollection.getCollectionId() == 14){
+        if(displayCollection.getCollectionId() == 13){
+            actualResult = true;
+            break;
+        }
+      }
+      assertEquals("Positive condition", actualResult, false);
+    }
+	
+	@Test
+    public void conditionResponseWith13AndGenderMale() {
+	  System.out.println("Executing PI001_4Test.conditionResponseWith13AndGenderMale");
+      CollectionResponse c1 = new CollectionResponse();
+      c1.setCollectionId(13);
+      CollectionResponse c2 = new CollectionResponse();
+      c2.setCollectionId(12);
+      patient.getCollectionResponses().add(c1);
+      patient.getCollectionResponses().add(c2);
+      
+      Demographics demographics = new Demographics();
+      demographics.setGenderCode("M");
+      patient.setDemographics(demographics);
+      
+      ksession.insert(patient);
+      ksession.fireAllRules();
+      boolean actualResult =  false;
+      for(DisplayCollection displayCollection : patient.getRulesResult().getDisplayCollections()){
+        if(displayCollection.getCollectionId() == 13){
             actualResult = true;
             break;
         }

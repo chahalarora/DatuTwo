@@ -1,4 +1,4 @@
-package com.datu.test;
+package java;
 
 import static org.junit.Assert.assertEquals;
 

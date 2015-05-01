@@ -1,4 +1,4 @@
-package com.datu.test;
+package java;
 
 import org.junit.After;
 import org.junit.Before;
@@ -6,14 +6,13 @@ import org.junit.Test;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
 
 import com.datu.patient.CollectionResponse;
-import com.datu.patient.Demographics;
 import com.datu.patient.Patient;
 import com.datu.result.DisplayCollection;
 
 import static org.junit.Assert.assertEquals;
 
 //Collect patient's initial information using MyInformation Survey
-public class PI001_4Test extends RulesBaseTest {
+public class PI001_1Test extends RulesBaseTest {
   private StatefulKnowledgeSession ksession = null;
   private Patient patient;
   
@@ -31,20 +30,17 @@ public class PI001_4Test extends RulesBaseTest {
     }
 	
 	@Test
-	public void collectionResponseWithout13AndGenderMale() {
-	  System.out.println("Executing PI001_4Test.collectionResponseWithout13AndGenderMale");
+	public void successCollectionResponseWithout11() {
+	  System.out.println("Executing PI001_1Test.successCollectionResponseWithout11");
 	  CollectionResponse c1 = new CollectionResponse();
-      c1.setCollectionId(10);
+      c1.setCollectionId(12);
       patient.getCollectionResponses().add(c1);
-      Demographics demographics = new Demographics();
-      demographics.setGenderCode("F");
-      patient.setDemographics(demographics);
       ksession.insert(patient);
       ksession.fireAllRules();
       //List<DisplayCollection> dCollections = patient.getRulesResult().getDisplayCollections();
       boolean actualResult =  false;
       for(DisplayCollection displayCollection : patient.getRulesResult().getDisplayCollections()){
-        if(displayCollection.getCollectionId() == 13){
+        if(displayCollection.getCollectionId() == 11){
             actualResult = true;
             break;
         }
@@ -55,12 +51,13 @@ public class PI001_4Test extends RulesBaseTest {
 	}
 	
 	@Test
-    public void collectionResponseWithout13NoDemographics() {
+    public void successCollectionResponsesWithout11() {
+	  System.out.println("Executing PI001_1Test.successCollectionResponsesWithout11");
       CollectionResponse c1 = new CollectionResponse();
-      c1.setCollectionId(10);
+      c1.setCollectionId(12);
       
       CollectionResponse c2 = new CollectionResponse();
-      c2.setCollectionId(12);
+      c2.setCollectionId(13);
       
       patient.getCollectionResponses().add(c1);
       patient.getCollectionResponses().add(c2);
@@ -69,33 +66,50 @@ public class PI001_4Test extends RulesBaseTest {
       //List<DisplayCollection> dCollections = patient.getRulesResult().getDisplayCollections();
       boolean actualResult =  false;
       for(DisplayCollection displayCollection : patient.getRulesResult().getDisplayCollections()){
-        if(displayCollection.getCollectionId() == 13){
+        if(displayCollection.getCollectionId() == 11){
             actualResult = true;
             break;
         }
       }
-      assertEquals("Positive condition", actualResult, false);
+      System.out.println("actualResult="+actualResult);
+      
+      assertEquals("Positive condition", actualResult, true);
     }
 	
 	@Test
-    public void conditionResponseWith13AndGenderMale() {
-	  System.out.println("Executing PI001_4Test.conditionResponseWith13AndGenderMale");
+    public void failureCtionResponseWith11() {
+	  System.out.println("Executing PI001_1Test.failureCtionResponseWith11");
       CollectionResponse c1 = new CollectionResponse();
-      c1.setCollectionId(13);
-      CollectionResponse c2 = new CollectionResponse();
-      c2.setCollectionId(12);
+      c1.setCollectionId(11);
       patient.getCollectionResponses().add(c1);
-      patient.getCollectionResponses().add(c2);
-      
-      Demographics demographics = new Demographics();
-      demographics.setGenderCode("M");
-      patient.setDemographics(demographics);
-      
       ksession.insert(patient);
       ksession.fireAllRules();
       boolean actualResult =  false;
       for(DisplayCollection displayCollection : patient.getRulesResult().getDisplayCollections()){
-        if(displayCollection.getCollectionId() == 13){
+        if(displayCollection.getCollectionId() == 11){
+            actualResult = true;
+            break;
+        }
+      }
+      System.out.println("actualResult="+actualResult);
+      
+      assertEquals("Positive condition", actualResult, false);
+    }
+	
+	@Test
+    public void failureCollectionResponsesWith11() {
+	  System.out.println("Executing PI001_1Test.failureCollectionResponsesWith11");
+      CollectionResponse c1 = new CollectionResponse();
+      c1.setCollectionId(11);
+      CollectionResponse c2 = new CollectionResponse();
+      c2.setCollectionId(12);
+      patient.getCollectionResponses().add(c1);
+      patient.getCollectionResponses().add(c2);
+      ksession.insert(patient);
+      ksession.fireAllRules();
+      boolean actualResult =  false;
+      for(DisplayCollection displayCollection : patient.getRulesResult().getDisplayCollections()){
+        if(displayCollection.getCollectionId() == 11){
             actualResult = true;
             break;
         }

@@ -1,6 +1,10 @@
-package com.datu.test;
+package java;
 
 import static org.junit.Assert.assertEquals;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +16,7 @@ import com.datu.patient.TileResponse;
 import com.datu.patient.TileResponseEngagement;
 import com.datu.result.DisplayTile;
 
-public class PI001_14Test extends RulesBaseTest {
+public class PI001_43Test extends RulesBaseTest {
   private StatefulKnowledgeSession ksession = null;
   private Patient patient;
   
@@ -30,14 +34,19 @@ public class PI001_14Test extends RulesBaseTest {
     }
   
 	@Test
-	public void succesTest() {
+	public void succesTest() throws ParseException {
 	  System.out.println("Executing PI001_14Test.succesTest");
       TileResponseEngagement te1 = new TileResponseEngagement();
-      te1.setActionName("AppointmentDate");
-      te1.setActionValue("2015/04/10");
+     // te1.setActionName("AppointmentDate");
+      te1.setActionValue("Yes");
       
       TileResponse tr1 = new TileResponse();
-      tr1.setTileResponseId(27);
+      tr1.setTileResponseId(57);
+      
+      SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+      Date date = format.parse("2015/03/10");
+      tr1.setResponseDateTime(date);
+      
       tr1.getTileResponseEngagements().add(te1);
       
       patient.getTileResponses().add(tr1);
@@ -46,7 +55,7 @@ public class PI001_14Test extends RulesBaseTest {
       
       boolean actualResult =  false;
       for(DisplayTile displayTile : patient.getRulesResult().getDisplayTiles()){
-        if(displayTile.getTileRange().equals("81-86")){
+        if(displayTile.getTileRange().equals("128-132")){
             actualResult = true;
             break;
         }
